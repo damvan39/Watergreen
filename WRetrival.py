@@ -1,3 +1,4 @@
+#1st iteration
 import urllib.request
 import os
 length_forecast = 3 #max value 38 min value 1
