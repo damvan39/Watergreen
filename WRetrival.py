@@ -1,6 +1,7 @@
 #1st iteration
 import urllib.request
 import os
+import time
 length_forecast = 3 #max value 38 min value 1
 authorisation_key = 'ff9eb73b3f291ec32601a97f440c27dc'
 location_id = '7910041'
@@ -43,6 +44,7 @@ avg_temp = avg_temp / len(temp_val)
 avg_temp = round(avg_temp,2)
 print (avg_temp)
 os.remove("latest_weather.xml")
+
 
 
 
