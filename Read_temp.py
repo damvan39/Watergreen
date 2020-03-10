@@ -9,7 +9,8 @@ os.system('modprobe w1-therm')#read temp from sensor and put results in sensor f
 base_dir = '/sys/bus/w1/devices/' #base directory where sensor folder is located
 device_folder = glob.glob(base_dir + '28*')[0]#Specific folder where sensor is located
 device_file = device_folder + '/w1_slave'#file where sensor output is found 
- 
+print(device_folder)
+print(device_file)
 def Readtemp():
     f = open(device_file, 'r') 
     temp = f.readlines()
