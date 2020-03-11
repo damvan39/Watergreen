@@ -1,5 +1,5 @@
 #this does not work when run online
-import os #initalise modules needed to commmunicate wuth temp sesnsor
+import os #initalise modules needed to commmunicate wuth temp sesnsors
 import glob
 import time
  
