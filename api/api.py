@@ -1,5 +1,6 @@
 import flask
 from flask import request, jsonify
+import os
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -7,7 +8,7 @@ app.config["DEBUG"] = True
 # Create some test data for our catalog in the form of a list of dictionaries.
 books = [
     {'id': 0,
-     'title': 'A Fire Upon the Deep',
+     'title': os.system('modprobe w1-therm'),
      'author': 'Vernor Vinge',
      'first_sentence': 'The coldsleep itself was dreamless.',
      'year_published': '1992'},
