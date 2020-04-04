@@ -8,7 +8,7 @@ import logging
 os.system('modprobe w1-gpio') #run this command in terminal to initalise communication with temp sensor via onewire protocol.
 os.system('modprobe w1-therm')
 
-if len(sys.argv) < 3 and len(sys.argv) < 2:
+if len(sys.argv) > 3 or len(sys.argv) < 2:
     print("usage:", sys.argv[0], "<mode> <address> (at least Mode is required) acceptable modes are: address <address> , listall, printall")
     sys.exit(1)
 mode = sys.argv[1]
@@ -20,7 +20,6 @@ try:
 except:
     print('unable to detect temperature sensor, please check that the wiring is correct')
     exit()
-
 
 device_file = []
 i = 0
@@ -91,7 +90,7 @@ if mode == 'list':
 elif mode == 'printall':
     i = 0
     output = []
-    limit = 5
+    limit = 64
     while i < num_devices and limit > 0:
         value = Trimtemp(i)
         output.append(value)
