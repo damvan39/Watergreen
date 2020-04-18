@@ -1,2 +1,2 @@
-Adafruit-DHT
+Adafruit-DHT --force-pi
 
