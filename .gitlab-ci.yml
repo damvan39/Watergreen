@@ -1,5 +1,5 @@
 #gitlab only
-image: alpine:
+image: alpine
 stages:
   - test
 test:
