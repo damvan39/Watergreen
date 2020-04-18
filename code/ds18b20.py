@@ -7,7 +7,7 @@ import sys
 import logging
 import signal
 
-s.system('modprobe w1-gpio') #run this command in terminal to initalise communication with temp sensor via onewire protocol.
+os.system('modprobe w1-gpio') #run this command in terminal to initalise communication with temp sensor via onewire protocol.
 os.system('modprobe w1-therm')#retrive values from sensor
 
 if len(sys.argv) > 3 or len(sys.argv) < 2: #check that command line arguments are valid
@@ -17,7 +17,7 @@ mode = sys.argv[1] # set the program mode as argument 1
 if len(sys.argv) > 2:
 	address = sys.argv[2] # set the device address as argument 2
 base_dir = '/sys/bus/w1/devices/' #base directory where sensor folder is located
-ty:
+try:
 	device_folder = glob.glob(base_dir + '28*')#Specific folder where sensor is located
 except:
 	print('unable to detect temperature sensor, please check that the wiring is correct\nalso check that you have the 1-wire protocol enabled')
