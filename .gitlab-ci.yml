@@ -1,3 +1,4 @@
+#gitlab only
 stages:
   - test
 test:
