@@ -3,19 +3,28 @@ var url = require('url');
 var fs = require('fs');
 var querystring = require('querystring');
 var MongoClient = require('mongodb').MongoClient;
-var Mongourl = "mongodb://localhost:27017/";
+var mongoUrl = "mongodb://localhost:27017/data";
+global.dbresult = []
 
-MongoClient.connect(Mongourl, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("data");
-  //example data
-  var myobj = { watert_1: "27.034", watert_2: "23.895", airt: "25.056", airh: "80" };
-  dbo.collection("data_buffer").insertOne(myobj, function(err, res) {
-    if (err) throw err;
-    console.log("1 document inserted");
-    db.close();
+MongoClient.connect(mongoUrl, function(err, db) {
+  var dbdata = []
+  var cursor = db.collection('data_buffer').find();
+
+  cursor.each(function(err, doc) {
+
+      console.log(doc);
+      dbdata.push(JSON.stringify(doc))
+      console.log(dbdata);
+
+
+
   });
-});
+  console.log("finaldata")
+  console.log(dbdata)
+}); 
+console.log("yeet:${dbdata}")
+//still being tested
+process.exit()
 
 http.createServer(function (req, res) {
   var q = url.parse(req.url, true);
@@ -42,7 +51,10 @@ function Api(query) {
     d = querystring.parse(query)
     if (d.type == "watert") {
         console.log("api: requested water temp");
-        result = getTemp()
+        dbresult = readDatabase()
+        var textResult = JSON.stringify(dbresult)
+        console.log("result equals")
+        console.log(textResult)
     }
     else if (d.type == "airt") {
         console.log("api: requested air temp");
@@ -57,6 +69,15 @@ function Api(query) {
     return result
 }
 
-function getTemp(index) {
-
+function readDatabase(index) {
+  var dbresultn;
+  MongoClient.connect(Mongourl, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("data");
+  dbo.collection("data_buffer").find({}).toArray(result) 
+  db.close();
+});
+  console.log("debug1")
+  console.log(dbresult)
+  return dbresult;
 }
