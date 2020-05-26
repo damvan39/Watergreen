@@ -5,11 +5,12 @@ var querystring = require('querystring');
 var MongoClient = require('mongodb').MongoClient;
 var Mongourl = "mongodb://localhost:27017/";
 
-MongoClient.connect(url, function(err, db) {
+MongoClient.connect(Mongourl, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
-  var myobj = { name: "Company Inc", address: "Highway 37" };
-  dbo.collection("customers").insertOne(myobj, function(err, res) {
+  var dbo = db.db("data");
+  //example data
+  var myobj = { watert_1: "27.034", watert_2: "23.895", airt: "25.056", airh: "80" };
+  dbo.collection("data_buffer").insertOne(myobj, function(err, res) {
     if (err) throw err;
     console.log("1 document inserted");
     db.close();
