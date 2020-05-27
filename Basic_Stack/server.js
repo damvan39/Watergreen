@@ -1,83 +1,78 @@
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
-var querystring = require('querystring');
+var express = require('express');
+var app = express();
 var MongoClient = require('mongodb').MongoClient;
-var mongoUrl = "mongodb://localhost:27017/data";
-global.dbresult = []
+var url = 'mongodb://localhost:27017';
+var str = "";
 
-MongoClient.connect(mongoUrl, function(err, db) {
-  var dbdata = []
-  var cursor = db.collection('data_buffer').find();
+console.log(databaseQuery("example"))
 
-  cursor.each(function(err, doc) {
+async function databaseQuery(type) {
+  console.log("api request recived, type: " + type)
+  var data
+  const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true})
+      .catch(err => { console.log(err); });
 
-      console.log(doc);
-      dbdata.push(JSON.stringify(doc))
-      console.log(dbdata);
-
-
-
-  });
-  console.log("finaldata")
-  console.log(dbdata)
-}); 
-console.log("yeet:${dbdata}")
-//still being tested
-process.exit()
-
-http.createServer(function (req, res) {
-  var q = url.parse(req.url, true);
-  if (q.pathname == "/api") {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(Api(q.search));
-      return res.end();
+  if (!client) {
+    console.log("error")
+    return;
   }
-  var filename = "." + q.pathname;
-  fs.readFile(filename, function(err, data) {
-    if (err) {
-      res.writeHead(404, {'Content-Type': 'text/html'});
-      return res.end("404 Not Found");
-    } 
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write(data);
-    return res.end();
-  });
-}).listen(8080);
 
-function Api(query) {
-    var result = ""
-    query = query.slice(1,)
-    d = querystring.parse(query)
-    if (d.type == "watert") {
-        console.log("api: requested water temp");
-        dbresult = readDatabase()
-        var textResult = JSON.stringify(dbresult)
-        console.log("result equals")
-        console.log(textResult)
-    }
-    else if (d.type == "airt") {
-        console.log("api: requested air temp");
-    }
-    else if (d.type == "airh") {
-        console.log("api: requested air humidity");
-    }
-    else {
-      console.log("error: api request type not valid")
-      result = "error: api request type not valid, valid types are watert, airt, airh "
-    }
-    return result
+  try {
+
+    const db = client.db("data");
+
+    let query = {}
+
+    query.type = type
+
+    let collection = db.collection('data_buffer');
+
+    let res = await collection.findOne(query);
+
+    data = JSON.stringify(res);
+  } catch (err) {
+
+      return
+  } finally {
+
+    client.close();
+  }
+  return (data);
 }
 
-function readDatabase(index) {
-  var dbresultn;
-  MongoClient.connect(Mongourl, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("data");
-  dbo.collection("data_buffer").find({}).toArray(result) 
-  db.close();
+app.route('/api').get(function(req, res)  {
+  console.log("api request recived, type: " + req.query.type)
+  var data
+  const client = MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true})
+      .catch(err => { console.log(err); });
+
+  if (!client) {
+    console.log("database error 001")
+  }
+
+  try {
+
+    const db = client.db("data");
+
+    let query = {}
+
+    query.type = req.query.type
+
+    let collection = db.collection('data_buffer');
+
+    let res = collection.findOne(query);
+
+    data = JSON.stringify(res);
+    client.close()
+
+  } catch (err) {
+
+    console.log("database error 002")
+  } finally {
+
+    client.close();
+  }
+  res.send (data);
 });
-  console.log("debug1")
-  console.log(dbresult)
-  return dbresult;
-}
+
+var server = app.listen(8080, function() {});
