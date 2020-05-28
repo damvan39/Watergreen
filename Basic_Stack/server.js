@@ -33,6 +33,8 @@ console.log("entered function")
 
 var query = data.find({ 'type': 'example1'})
 query.select('airt airh')
+query.limit(5)
+query.sort({ airt: -1 });
 
 query.exec(function(err, data){
   if (err) return handleError(err);
