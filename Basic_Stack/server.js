@@ -1,78 +1,88 @@
 var express = require('express');
 var app = express();
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017';
-var str = "";
+var mongoDB = 'mongodb://localhost/data';
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-console.log(databaseQuery("example"))
+var dataSchema = new Schema({
+  type: String, // String is shorthand for {type: String}
+  airt: Number,
+  airh: Number,
+  watert: [{ data: Number, index: Number }],
+},{collection :'data_buffer'});
+var data = mongoose.model('data_buffer', dataSchema)
 
-async function databaseQuery(type) {
-  console.log("api request recived, type: " + type)
-  var data
-  const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true})
-      .catch(err => { console.log(err); });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-  if (!client) {
-    console.log("error")
-    return;
-  }
 
-  try {
+var testwrite = new data({
+  type: 'example1',
+  airt: 27.012,
+  airh: 34.34,
+  watert: [{data: 27.12, index:1}]
 
-    const db = client.db("data");
+})
+testwrite.save(function (err){
+console.log("entered function")
+  if (err) return handleError(err);
 
-    let query = {}
+});
 
-    query.type = type
+var query = data.find({ 'type': 'example1'})
+query.select('airt airh')
 
-    let collection = db.collection('data_buffer');
+query.exec(function(err, data){
+  if (err) return handleError(err);
+console.log(data)
+})
 
-    let res = await collection.findOne(query);
 
-    data = JSON.stringify(res);
-  } catch (err) {
+async function findOne() {
+  return new Promise(function(resolve, reject) {
+    try {
+      const client = MongoClient.connect(url, { useNewUrlParser: true })
+        .catch(err => { console.log(err); });
+      
+      if (!client) {
+        return;
+      }
 
-      return
-  } finally {
+      const db = client.db("data");
 
-    client.close();
-  }
-  return (data);
+      let collection = db.collection('data_buffer');
+
+      let query = { type: 'example' }
+
+      let data = collection.findOne(query);
+
+      resolve(JSON.stringify(data))
+
+    } catch (err) {
+
+        reject(err);
+    } finally {
+
+        client.close();
+    }
+  });
+
+
 }
+
+
 
 app.route('/api').get(function(req, res)  {
   console.log("api request recived, type: " + req.query.type)
-  var data
-  const client = MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true})
-      .catch(err => { console.log(err); });
+  data = findOne();
+  console.log(data)
+  data.then(function (result){
+    console.log(result)
+    res.write(result)
+  });
 
-  if (!client) {
-    console.log("database error 001")
-  }
-
-  try {
-
-    const db = client.db("data");
-
-    let query = {}
-
-    query.type = req.query.type
-
-    let collection = db.collection('data_buffer');
-
-    let res = collection.findOne(query);
-
-    data = JSON.stringify(res);
-    client.close()
-
-  } catch (err) {
-
-    console.log("database error 002")
-  } finally {
-
-    client.close();
-  }
-  res.send (data);
 });
 
 var server = app.listen(8080, function() {});
