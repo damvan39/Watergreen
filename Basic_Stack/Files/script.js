@@ -28,7 +28,7 @@ function loadDoc(url, cFunction) {
         } 
 
         document.getElementById(identifier_type+identifier_index).innerHTML = data()
-        console.log(data["watert[0].data"])
+        document.getElementById("status_"+identifier_type+identifier_index).innerHTML = "check_circle"
       }
     };
     xhttp.open("GET", url, true);
@@ -36,9 +36,15 @@ function loadDoc(url, cFunction) {
 
   }
   function mainInit() {
+    console.log("retriving data")
     setData("/api/buffer", ["watert",0,"data"])
     setData("/api/buffer", ["watert",1,"data"])
     setData("/api/buffer", ["airt",0,"data"])
     setData("/api/buffer", ["airh",0,"data"])
 
   }
+
+
+
+setInterval(mainInit, 2000)
+

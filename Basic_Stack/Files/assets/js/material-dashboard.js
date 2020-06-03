@@ -142,9 +142,9 @@ $(window).resize(function() {
   // reset the seq for charts drawing animations
   seq = seq2 = 0;
 
-  setTimeout(function() {
-    md.initDashboardPageCharts();
-  }, 500);
+  // setTimeout(function() {
+  //   md.initDashboardPageCharts();
+  // }, 500);
 });
 
 md = {
@@ -313,7 +313,7 @@ md = {
       /* ----------==========     Daily Sales Chart initialization    ==========---------- */
 
       dataDailySalesChart = {
-        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+        labels: ['M', 'T', 'W', 'T', 'F', 'y', 'S'],
         series: [
           [12, 17, 7, 17, 23, 18, 38]
         ]

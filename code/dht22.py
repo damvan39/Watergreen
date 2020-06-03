@@ -16,6 +16,6 @@ if humidity is not None and temperature is not None:#if the output is valid
 		temperature = round(temperature,2)#roud the temperature and humidity to 2 decimal points
 		humidity = round(humidity,2)
 		i += 1
-	print("[% s, % s]"%(temperature, humidity))#print them back to the command line
+	print([temperature, humidity])#print them back to the command line
 	exit (0)
 print("Failed to retrieve data from humidity sensor") #error message if output is not valid
