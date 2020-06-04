@@ -2,7 +2,7 @@ import pymongo
 import os
 import datetime
 import subprocess
-# client = pymongo.MongoClient("mongodb://localhost:27017")
+client = pymongo.MongoClient("mongodb://localhost:27017")
 # print(client.list_database_names())
 
 my_path = os.path.abspath(os.path.dirname(__file__))
