@@ -1,28 +1,33 @@
 import pymongo
 import os
 import datetime
-client = pymongo.MongoClient("mongodb://localhost:27017")
-print(client.list_database_names())
+import subprocess
+# client = pymongo.MongoClient("mongodb://localhost:27017")
+# print(client.list_database_names())
 
 my_path = os.path.abspath(os.path.dirname(__file__))
-print(my_path)
+# print(my_path)
 
 
 def getData() :
-    class readData:
-        @classmethod
-        def airt(cls): 
-            x = os.system('python3 ' + os.path.join(my_path, "dht22.py"))[0]
-            x = [{"data":x}]
-            return x
+    def airt(): 
+        command = ['sudo', 'python3', os.path.join(my_path, "dht22.py")]
+        p = subprocess.Popen(command, stdout=subprocess.PIPE)
+        text = p.stdout.read()
+        retcode = p.wait()
+        text = text.decode('utf-8')
+        text = text.rstrip("\n")
+        text = list(text.split(" ")) 
+        return (text)
 
-        def airh(self) :
-            x = os.system('python3 ' + os.path.join(my_path, "dht22.py"))[1]
-            return x
+    def airh() :
+        x = os.system('python3 ' + os.path.join(my_path, "dht22.py"))[1]
+        return x
 
-        def watert(self): 
-            return("water")
-    return readData.watert
+    def watert(): 
+        return("water")
+
+    return (airt())
     # x = {
     #     "time": datetime.datetime.now(),
     #     "airt": readData.airt(),
@@ -38,4 +43,4 @@ def updateBuffer() :
 
 
 
-
+print(getData())
