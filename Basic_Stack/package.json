@@ -14,5 +14,8 @@
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.16",
     "promise": "^8.1.0"
+  },
+  "devDependencies": {
+    "purify-css": "^1.2.5"
   }
 }

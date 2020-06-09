@@ -1,8 +1,9 @@
 import pymongo
 import os
+from datetime import timedelta
 import datetime
 import subprocess
-# client = pymongo.MongoClient("mongodb://localhost:27017")
+client = pymongo.MongoClient("mongodb://localhost:27017")
 # print(client.list_database_names())
 
 my_path = os.path.abspath(os.path.dirname(__file__))
@@ -38,9 +39,45 @@ def getData() :
 
 def updateBuffer() :
     mydb = client["data"]
-    data_buffer = mydb["data_buffer"]
+    data_buffer = mydb["data_log"]
     data = getData()
 
 
+x = {
+    "time":  datetime.datetime.now(),
+    "airt": [{
+        "data": 27.012,
+    }],
+    "airh": [{
+        "data": 34.34,
+    }],
+    "watert": [{
+        "data": 30
+    }, {
+        "data": 24.43
+    }],
+}
 
-print(getData())
+mydb = client["data"]
+data_log = mydb["data_log"]
+i = 0
+while (i < 100):
+    x = {
+        "time":  datetime.datetime.now() - timedelta(days=i),
+        "airt": [{
+            "data": 27.012,
+        }],
+        "airh": [{
+            "data": 34.34,
+        }],
+        "watert": [{
+            "data": 30
+        }, {
+            "data": 24.43
+        }],
+    }
+    mydb = client["data"]
+    data_log = mydb["data_log"]
+    data_log.insert_one(x)
+    i += 1
+
