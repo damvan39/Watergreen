@@ -56,7 +56,7 @@ app.route('/api/data_log').get(function(req, res)  {
 
   var query = data_log.find({})
   query.select('')
-  query.limit(50)
+  query.limit(15)
   query.sort({ created_at: -1 });
   
   query.exec(function(err, data){
