@@ -8,24 +8,24 @@ type Query {
 type Link {
     id: ID!
     time: String!
-    data [Float!]
+    data: [Float]
 }
 `
 let links = [{
     id: 'link-0',
-    url: 'ptable.xyz',
-    description: 'really cool website'
+    time: '5:32',
+    data: [12,15]
 }]
 
 const resolvers = {
     Query: {
         status: () => `Ni Hao`,
-        feed: () => links,
+        live: () => links,
     },
     Link: {
         id: (parent) => parent.id,
-        description: (parent) => parent.description,
-        url: (parent) => parent.url,
+        time: (parent) => parent.time,
+        data: (parent) => parent.data,
     }
 }
 
