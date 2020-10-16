@@ -2,13 +2,30 @@ const { GraphQLServer } = require('graphql-yoga')
 
 const typeDefs = `
 type Query {
-    info: String!
+    status: String!
+    live: [Link]!
+}
+type Link {
+    id: ID!
+    time: String!
+    data [Float!]
 }
 `
+let links = [{
+    id: 'link-0',
+    url: 'ptable.xyz',
+    description: 'really cool website'
+}]
 
 const resolvers = {
     Query: {
-        info: () => `Ni Hao`
+        status: () => `Ni Hao`,
+        feed: () => links,
+    },
+    Link: {
+        id: (parent) => parent.id,
+        description: (parent) => parent.description,
+        url: (parent) => parent.url,
     }
 }
 
