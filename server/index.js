@@ -1,4 +1,25 @@
-const { GraphQLServer } = require('graphql-yoga')
+"use strict"
+const { GraphQLServer } = require('graphql-yoga');
+const { resolve } = require('path');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+async function lsWithGrep() {
+  try {
+      const { stdout, stderr } = await exec(`wsl date`);
+      return(stdout)
+  }
+  catch (err) {
+     return Promise.reject(err)
+  };
+};
+
+var test = new Promise(function (resolve, reject) {
+    setTimeout(() => resolve("hello kitty"), 2000)
+})
+
+// test.then((val) => console.log(val))
+
+// lsWithGrep().then(val => console.log(val)).catch(err => console.log(err))
 
 const typeDefs = `
 type Query {
@@ -8,13 +29,13 @@ type Query {
 type Link {
     id: ID!
     time: String!
-    data: [Float]
+    data: String!
 }
 `
 let links = [{
     id: 'link-0',
     time: '5:32',
-    data: [12,15]
+    data: Date.now(),
 }]
 
 const resolvers = {
