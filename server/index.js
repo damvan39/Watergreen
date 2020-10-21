@@ -1,57 +1,49 @@
-"use strict"
 const { GraphQLServer } = require('graphql-yoga');
-const { resolve } = require('path');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
-async function lsWithGrep() {
+async function lsWithGrep(cmd) {
   try {
-      const { stdout, stderr } = await exec(`wsl date`);
-      return(stdout)
+      const { stdout, stderr } = await exec(cmd);
+      console.log("called")
+      return stdout
   }
   catch (err) {
      return Promise.reject(err)
   };
 };
 
-var test = new Promise(function (resolve, reject) {
-    setTimeout(() => resolve("hello kitty"), 2000)
-})
 
-// test.then((val) => console.log(val))
-
-// lsWithGrep().then(val => console.log(val)).catch(err => console.log(err))
-
-const typeDefs = `
-type Query {
-    status: String!
-    live: [Link]!
-}
-type Link {
-    id: ID!
-    time: String!
-    data: String!
-}
-`
 let links = [{
     id: 'link-0',
     time: '5:32',
-    data: Date.now(),
+    data: lsWithGrep(`bash -c "date"`),
 }]
 
+links[0].data.then(val => console.log(val)).catch(err => console.log(err))
+// links[0].data.then(val => console.log(val))
+let idCount = links.length
 const resolvers = {
     Query: {
         status: () => `Ni Hao`,
         live: () => links,
     },
-    Link: {
-        id: (parent) => parent.id,
-        time: (parent) => parent.time,
-        data: (parent) => parent.data,
+    Mutation: {
+        add_data: (parent, args) => {
+            const link = {
+                id: `link-${idCount++}`,
+                time: args.time,
+                date: args.data,
+            }
+            links.push(link)
+            return link
+        }
     }
 }
 
 const server = new GraphQLServer ({
-    typeDefs,
+    typeDefs:'./src/schema.graphql',
     resolvers,
 })
-server.start(() => console.log('server running'))
+server.start((foo) => console.log(foo))
+
+ 
