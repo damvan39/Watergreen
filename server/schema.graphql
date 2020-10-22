@@ -1,0 +1,14 @@
+type Query {
+    status: String!
+    live: Live!
+    history: [Data]
+}
+type Live {
+    live_data: String!
+}
+scalar Date
+type Data {
+    id: ID!
+    loggedAt: String!
+    data: String!
+}
