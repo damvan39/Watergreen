@@ -1,0 +1,15 @@
+datasource db {
+    provider = "sqlite"
+    url = "***"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Data {
+    id Int @id @default(autoincrement())
+    loggedAt DateTime @default(now())
+    data Float
+
+}
