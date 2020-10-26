@@ -11,5 +11,5 @@ scalar Date
 type Data {
     id: ID!
     loggedAt: String!
-    data: String!
+    data: Float!
 }

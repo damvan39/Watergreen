@@ -3,19 +3,30 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+// check development mode
+switch (process.argv.slice(2)[0]){
+    case 'dev':
+        console.log('development mode enabled')
+        water_temp_command = `py ds18b20.py test`
+        break
+    default: 
+    water_temp_command = `py ds18b20.py`
+
+}
+
+//setup function for running commands on terminal
 async function lsWithGrep(cmd) {
   try {
       const { stdout, stderr } = await exec(cmd);
-      console.log(JSON.parse(stdout.replace(/\n|\r|\\|\o/g, '')))
-      return stdout.replace(/\n|\r|\\/g, '')
+      return stdout.replace(/\n|\r|\\/g, '') //remove formatting characters so that output can be parsed
   }
   catch (err) {
       console.log(err)
-     return Promise.reject(err)
+     return Promise.reject(err) //reject promise if command returns error
   };
 };
 
-water_temp_command = `py ds18b20.py test`
+
 
 
 const resolvers = {

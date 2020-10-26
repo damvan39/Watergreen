@@ -6,5 +6,9 @@
   "dependencies": {
     "@prisma/cli": "2.9.0",
     "@prisma/client": "2.9.0"
+  },
+  "scripts": {
+    "dev":"node index.js --dev",
+    "run":"node index.js"
   }
 }
