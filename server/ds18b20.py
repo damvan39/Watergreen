@@ -6,6 +6,7 @@ import time
 import sys
 import logging
 import signal
+import json
 
 
 if len(sys.argv) > 3 or len(sys.argv) < 2: #check that command line arguments are valid
@@ -14,8 +15,9 @@ if len(sys.argv) > 3 or len(sys.argv) < 2: #check that command line arguments ar
 mode = sys.argv[1] # set the program mode as argument 1
 
 if mode == "test" : #test mode
-	print('[23.456,45.346]') #example data
-	exit()
+	data = [{"address": "230safbhds","data": 23.324}, {"address": "230safbhdg","data": 34.344}, {"address": "230safbhdh","data": 25.342}]
+	print(json.dumps(data)) #example data
+	exit(0)
 
 os.system('modprobe w1-gpio') #run this command in terminal to initalise communication with temp sensor via onewire protocol.
 os.system('modprobe w1-therm')#retrive values from sensor

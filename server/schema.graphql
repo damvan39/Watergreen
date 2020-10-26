@@ -1,10 +1,11 @@
 type Query {
     status: String!
-    live: Live!
+    live: [Live!]!
     history: [Data]
 }
 type Live {
-    live_data: String!
+    address: String!
+    data: Float!
 }
 scalar Date
 type Data {
