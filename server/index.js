@@ -21,7 +21,7 @@ water_temp_command = `py ds18b20.py test`
 const resolvers = {
     Query: {
         status: () => `Ni Hao`,
-        live: async () => await lsWithGrep(water_temp_command),
+        live: async() => JSON.parse(await lsWithGrep(water_temp_command)),
         history: async (parent, args, context) => {
             return context.prisma.data.findMany()
         }
