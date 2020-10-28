@@ -3,14 +3,19 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+const express = require('express')
+const app = express()
+const port = 80
 // check development mode
 switch (process.argv.slice(2)[0]){
     case 'dev':
         console.log('development mode enabled')
         water_temp_command = `py ds18b20.py test`
+        graphiql = '/'
         break
     default: 
     water_temp_command = `py ds18b20.py`
+    graphiql = false
 
 }
 
@@ -44,8 +49,13 @@ const server = new GraphQLServer ({
     resolvers,
     context: {
         prisma,
-    }
+    },
 })
-server.start((foo) => console.log(foo))
+server.start({
+    playground:graphiql
+},(foo) => console.log(foo))
+
+app.use(express.static('static'))
+app.listen(port, () => console.log(`html server listening on port ${port}`))
 
 //  console.log({live_data: lsWithGrep(`python3 ../tools/"`).catch(err => console.log(err))})
