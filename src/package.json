@@ -1,14 +1,16 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "entrypoint": "server.js",
   "license": "MIT",
   "dependencies": {
     "@prisma/cli": "2.9.0",
-    "@prisma/client": "2.9.0"
+    "@prisma/client": "2.9.0",
+    "chart.js": "^2.9.4"
   },
   "scripts": {
-    "dev":"node index.js --dev",
-    "run":"node index.js"
-  }
+    "dev": "node index.js --dev",
+    "run": "node index.js"
+  },
+  "devDependencies": {}
 }

@@ -1,3 +1,4 @@
+
 function onLoad () {
     document.getElementById('myChart').height = $(window).height()/2;
     var ctx = document.getElementById('myChart').getContext('2d');
