@@ -1,5 +1,6 @@
 
-function onLoad () {
+
+async function Init() {
     document.getElementById('myChart').height = $(window).height()/2;
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
@@ -28,3 +29,25 @@ function onLoad () {
     });
     console.log($(window).height())
 }
+
+fetch('http://localhost:4000/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({query: "{history {id loggedAt data}}"})
+}).then(r => r.json()).then(data => console.log('data returned:', data))
+
+
+    // fetch('http://localhost:4000/graphql', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Accept': 'application/json',
+    //     },
+    //     body: JSON.stringify({query: "{ hello }"})
+    //   })
+    //     .then(r => r.json())
+    //     .then(data => console.log('data returned:', data));
+    //     console.log(JSON.stringify({query: "{ hello }"}))

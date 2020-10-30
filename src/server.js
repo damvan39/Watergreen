@@ -52,7 +52,11 @@ const server = new GraphQLServer ({
     },
 })
 server.start({
-    playground:graphiql
+    playground:graphiql,
+    port:4000,
+    endpoint: "/graphql",
+    cors:true,
+    getEndpoint:true
 },(foo) => console.log(foo))
 
 app.use(express.static('static'))
