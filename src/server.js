@@ -20,7 +20,7 @@ switch (process.argv.slice(2)[0]){
 }
 
 //setup function for running commands on terminal
-async function lsWithGrep(cmd) {
+async function execute(cmd) {
   try {
       const { stdout, stderr } = await exec(cmd);
       return stdout.replace(/\n|\r|\\/g, '') //remove formatting characters so that output can be parsed
@@ -37,7 +37,7 @@ async function lsWithGrep(cmd) {
 const resolvers = {
     Query: {
         status: () => `Ni Hao`,
-        live: async() => JSON.parse(await lsWithGrep(water_temp_command)),
+        live: async() => JSON.parse(await execute(water_temp_command)),
         history: async (parent, args, context) => {
             return context.prisma.data.findMany()
         }
