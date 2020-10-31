@@ -3,6 +3,14 @@
 async function Init() {
     document.getElementById('myChart').height = $(window).height()/2;
     var ctx = document.getElementById('myChart').getContext('2d');
+    var getData = await fetch('http://localhost:4000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({query: "{history {id loggedAt data}}"})
+    }).then(r => r.json())
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
@@ -17,7 +25,7 @@ async function Init() {
                 label: 'My First dataset',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45]
+                data: getData.data.history.map(context => context.data)
             }]
         },
     
@@ -29,15 +37,15 @@ async function Init() {
     });
     console.log($(window).height())
 }
-
-fetch('http://localhost:4000/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify({query: "{history {id loggedAt data}}"})
-}).then(r => r.json()).then(data => console.log('data returned:', data))
+$( document ).ready(Init)
+// fetch('http://localhost:4000/graphql', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Accept': 'application/json',
+//     },
+//     body: JSON.stringify({query: "{history {id loggedAt data}}"})
+// }).then(r => r.json()).then(data => console.log('data returned:', data))
 
 
     // fetch('http://localhost:4000/graphql', {
