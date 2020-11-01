@@ -63,3 +63,4 @@ app.use(express.static('static'))
 app.listen(port, () => console.log(`html server listening on port ${port}`))
 
 //  console.log({live_data: lsWithGrep(`python3 ../tools/"`).catch(err => console.log(err))})
+console.log(Date.now())
