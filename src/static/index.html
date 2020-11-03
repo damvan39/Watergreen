@@ -9,10 +9,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css">
+<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
 <link rel="stylesheet" href="style.css">
 <script src="script.js"></script>
 </head>
 <body>
+    
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
     <div class="container-fluid">
         <a href="#" class="navbar-brand mr-3">Watergreen Dashboard</a>
@@ -39,25 +42,22 @@
 </nav>
 <div class="container-fluid">
     <div class="">
-        <div class=" jumbotron p-1 m-1">
+        <div class=" card bg-light p-1">
             <!-- <h1 class="text-center lg-display-4 md-display-6 sm-display-8">Temperature History</h1> -->
             <canvas id="myChart" height=""></canvas>
         </div>
     </div>
-    <div class="row card-deck p-3">
-        <div class="col-md-4 card bg-light">
-            <h2>HTML</h2>
-            <p>Content here</p>
+    <div class="row card-deck pt-3">
+        <div class="col-md-8 card bg-light p-1">
+            <table id="table"></table>
         </div>
-        <div class="col-md-4 card bg-light">
-            <h2>CSS</h2>
-            <p>Content here</p>
-        </div>
+
         <div class="col-md-4 card bg-light">
             <h2>Bootstrap</h2>
             <p>Content here</p>
         </div>
     </div>
 </div>
+
 </body>
 </html>

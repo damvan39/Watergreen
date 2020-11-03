@@ -36,7 +36,7 @@ async function Init() {
         },
         body: JSON.stringify({query: "{history {id loggedAt data}}"})
     }).then(r => r.json())
-    console.log(getData)
+
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
@@ -44,7 +44,6 @@ async function Init() {
         // The data for our dataset
         data: {
             labels: getData.data.history.map(context => {
-                console.log(context)
                 var d = new Date(parseInt(context.loggedAt))
                 return `${d.getDate()} / ${d.getMonth() + 1}`
             }),
@@ -62,6 +61,29 @@ async function Init() {
             maintainAspectRatio:false,
         }
     });
-    console.log($(window).height())
+    $('#table').bootstrapTable({
+        pagination: true,
+        search: true,
+        columns: [{
+          field: 'id',
+          title: 'Measurment ID'
+        }, {
+          field: 'loggedAt',
+          title: 'Time Logged'
+        }, {
+          field: 'data',
+          title: 'Sensor data'
+        }],
+        data: getData.data.history.map(context => {
+            return {
+                id: context.id, 
+                loggedAt: new Date(parseInt(context.loggedAt)).getDate() + " / " + new Date(parseInt(context.loggedAt)).getMonth(),
+                data: context.data 
+            }
+
+        })
+      })
+    
 }
 $( document ).ready(Init)
+
