@@ -41,20 +41,27 @@
     </div>    
 </nav>
 <div class="container-fluid">
-    <div class="">
-        <div class=" card bg-light p-1">
+    <div class="row card-deck pt-2">
+        <div class=" col-md-12 card bg-light p-1">
             <!-- <h1 class="text-center lg-display-4 md-display-6 sm-display-8">Temperature History</h1> -->
             <canvas id="myChart" height=""></canvas>
         </div>
-    </div>
+</div>
     <div class="row card-deck pt-3">
         <div class="col-md-8 card bg-light p-1">
             <table id="table"></table>
         </div>
 
         <div class="col-md-4 card bg-light">
-            <h2>Bootstrap</h2>
-            <p>Content here</p>
+            <div class="livenow icon d-flex justify-content-center"> 
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center align-content-center" style="margin:auto">
+                <h1 style="font-size: 20vmin;" id="live">0<span style="font-size: 5vmin;" class="align-text-top">&#8451;</span></h1>
+            </div>
         </div>
     </div>
 </div>

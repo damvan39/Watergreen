@@ -1,34 +1,8 @@
 
-function convertMiliseconds(miliseconds, format) {
-    var days, hours, minutes, seconds, total_hours, total_minutes, total_seconds;
-    
-    total_seconds = parseInt(Math.floor(miliseconds / 1000));
-    total_minutes = parseInt(Math.floor(total_seconds / 60));
-    total_hours = parseInt(Math.floor(total_minutes / 60));
-    days = parseInt(Math.floor(total_hours / 24));
-  
-    seconds = parseInt(total_seconds % 60);
-    minutes = parseInt(total_minutes % 60);
-    hours = parseInt(total_hours % 24);
-    
-    switch(format) {
-      case 's':
-          return total_seconds;
-      case 'm':
-          return total_minutes;
-      case 'h':
-          return total_hours;
-      case 'd':
-          return days;
-      default:
-          return { d: days, h: hours, m: minutes, s: seconds };
-    }
-  };
-
 async function Init() {
     document.getElementById('myChart').height = $(window).height()/2;
     var ctx = document.getElementById('myChart').getContext('2d');
-    var getData = await fetch('http://localhost:4000/graphql', {
+    var getData = await fetch(window.location.href.substring(0, window.location.href.length -1 ) + ":4000/graphql", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,6 +10,7 @@ async function Init() {
         },
         body: JSON.stringify({query: "{history {id loggedAt data}}"})
     }).then(r => r.json())
+   
 
     var chart = new Chart(ctx, {
         // The type of chart we want to create
@@ -83,7 +58,24 @@ async function Init() {
 
         })
       })
-    
-}
-$( document ).ready(Init)
+      live()
+      setInterval(live, 3000);
 
+}
+$( document ).ready(Init) 
+
+async function live() {
+
+  document.getElementById('live').firstChild.data = await fetch(window.location.href.substring(0, window.location.href.length -1 ) + ":4000/graphql", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({query: "{live {data}}"})
+}).then(r => r.json()).then(context => {
+  return Math.round(context.data.live[0].data)
+})
+
+
+}

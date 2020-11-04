@@ -1,9 +1,11 @@
 const { GraphQLServer } = require('graphql-yoga');
 const { PrismaClient } = require('@prisma/client')
+const { APP_SECRET, getUserId } = require('./tokens.js')
 const prisma = new PrismaClient()
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
-const express = require('express')
+const express = require('express');
+const { request } = require('http');
 const app = express()
 const port = 80
 // check development mode
@@ -34,21 +36,63 @@ async function execute(cmd) {
 
 
 
-const resolvers = {
+
+
+async function signup(parent, args, context, info) {
+    // 1
+    const password = await bcrypt.hash(args.password, 10)
+    
+    // 2
+    const user = await context.prisma.user.create({ data: { ...args, password } })
+  
+    // 3
+    const token = jwt.sign({ userId: user.id }, APP_SECRET)
+  
+    // 4
+    return {
+      token,
+      user,
+    }
+  }
+  
+  async function login(parent, args, context, info) {
+    // 1
+    const user = await context.prisma.user.findOne({ where: { email: args.email } })
+    if (!user) {
+      throw new Error('No such user found')
+    }
+  
+    // 2
+    const valid = await bcrypt.compare(args.password, user.password)
+    if (!valid) {
+      throw new Error('Invalid password')
+    }
+  
+    const token = jwt.sign({ userId: user.id }, APP_SECRET)
+  
+    // 3
+    return {
+      token,
+      user,
+    }
+  }
+  
+  const resolvers = {
     Query: {
-        status: () => `Ni Hao`,
         live: async() => JSON.parse(await execute(water_temp_command)),
         history: async (parent, args, context) => {
             return context.prisma.data.findMany()
         }
     },
 }
-
 const server = new GraphQLServer ({
     typeDefs:'./schema.graphql',
     resolvers,
-    context: {
-        prisma,
+    context: request => {
+        return {
+            ...request,
+            prisma,
+        }  
     },
 })
 server.start({
