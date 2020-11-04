@@ -15,7 +15,7 @@ if len(sys.argv) > 3 or len(sys.argv) < 2: #check that command line arguments ar
 mode = sys.argv[1] # set the program mode as argument 1
 
 if mode == "test" : #test mode
-	data = [{"address": "230safbhds","data": 23.324}, {"address": "230safbhdg","data": 34.344}, {"address": "230safbhdh","data": 25.342}]
+	data = [{"address": "230safbhds","data": 21.324}, {"address": "230safbhdg","data": 34.344}, {"address": "230safbhdh","data": 25.342}]
 	print(json.dumps(data)) #example data
 	exit(0)
 
@@ -56,6 +56,12 @@ def Listsensor(): #used for listing the sensor addresses from the modprobe file
 		output.append(string) #add the string into the output array
 		i += 1 # next iteration
 	return output # return the output to the function that called it
+
+def SensorAddress(i):
+	string = device_folder[i] # turn the array of a specific of sensor i onto a string
+	x = string.find('-') # find the - character
+	string = string[x+1:]
+	return string
 
 
 def Addressread(address): # this is the function that associates the addres provided with the index of a teperature sensor using an address
@@ -109,7 +115,7 @@ def Trimtemp(index): #the main temperature block of code that calls the readtemo
 		return 999   #if there is no t= throw an error
 
 
-if mode == 'list': #this is kind of selfe explanatory, if the mode that we set at command line is equalt to list
+if mode == 'list': #this is kind of self explanatory, if the mode that we set at command line is equalt to list
 	print (Listsensor()) #print the value return form the Linsttemp() function
 	exit()
 
@@ -118,12 +124,11 @@ elif mode == 'printall':
 	output = [] #initalize outout as an array
 	limit = 64 #set a limit to the number of times times that this can iterate
 	while i < num_devices and limit > 0: #iterate through the devices and add the value for each sensor to the output array
-		value = Trimtemp(i)
-		output.append(value)
+		output.append({"address": SensorAddress(i), "data": Trimtemp(i)})
 		i += 1 
 		limit -= 1
-	print (output)# print the array
-	exit()
+	print(json.dumps(output)) #example data
+	exit(0)
 
 elif mode == 'address':
 	try: # inside a try statment so that if an error occurs i can handle it gracefully

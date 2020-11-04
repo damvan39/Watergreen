@@ -4,16 +4,20 @@
   "entrypoint": "server.js",
   "license": "MIT",
   "dependencies": {
-    "@apollo/client": "^3.2.5",
-    "@prisma/cli": "2.9.0",
-    "@prisma/client": "2.9.0",
-    "graphql": "^15.4.0"
+    "@prisma/client": "^2.10.2",
+    "bcryptjs": "^2.4.3",
+    "graphql-yoga": "^1.18.3",
+    "jsonwebtoken": "^8.5.1",
+    "node-sass": "^5.0.0"
   },
   "scripts": {
     "dev": "node index.js --dev",
     "run": "node index.js",
     "build": "browserify static/script.js -o static/bundle.js",
-    "watch": "watchify static/script.js -o static/bundle.js -v"
+    "watch": "watchify static/script.js -o static/bundle.js -v",
+    "scss": "node-sass --watch static -o static"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@prisma/cli": "^2.10.2"
+  }
 }
