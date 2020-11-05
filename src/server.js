@@ -1,8 +1,7 @@
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
-const { PrismaClient } = require('@prisma/client')
+const { Sequelize, DataTypes } = require('sequelize');
 const { APP_SECRET, getUserId } = require('./tokens.js')
-const prisma = new PrismaClient()
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const express = require('express');
@@ -22,15 +21,15 @@ switch (process.argv.slice(2)[0]){
 
 }
 
-async function logTemp() {
-  await prisma.data.create({
-    data: {
-      data: JSON.parse(await execute(water_temp_command))[0].data
-    }
-  }).then(d => console.log(d))
-}
+// async function logTemp() {
+//   await prisma.data.create({
+//     data: {
+//       data: JSON.parse(await execute(water_temp_command))[0].data
+//     }
+//   }).then(d => console.log(d))
+// }
 
-logTemp()
+
 
 async function execute(cmd) {
 
@@ -65,7 +64,7 @@ type Data {
 
         live: async() => JSON.parse(await execute(water_temp_command)),
         history: async (args, context) => {
-            return await context.data.findMany()
+            // return await context.data.findMany()
     },
 }
 
@@ -73,7 +72,6 @@ app.use('/graphql', graphqlHTTP( async () => ({
   schema: schema,
   rootValue: resolvers,
   graphiql: true,
-  context:  prisma,
 })),
 
 )
@@ -83,3 +81,22 @@ app.listen(port, () => console.log(`html server listening on port ${port}`))
 
 //  console.log({live_data: lsWithGrep(`python3 ../tools/"`).catch(err => console.log(err))})
 console.log(Date.now())
+
+const sequelize = new Sequelize('sqlite::memory:');
+
+const User = sequelize.define('User', {
+  // Model attributes are defined here
+  firstName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  lastName: {
+    type: DataTypes.STRING
+    // allowNull defaults to true
+  }
+}, {
+  // Other model options go here
+});
+
+// `sequelize.define` also returns the model
+console.log(User === sequelize.models.User); // true

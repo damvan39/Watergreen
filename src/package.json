@@ -4,11 +4,12 @@
   "entrypoint": "server.js",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^2.10.2",
     "bcryptjs": "^2.4.3",
     "express-graphql": "^0.11.0",
     "jsonwebtoken": "^8.5.1",
-    "node-sass": "^5.0.0"
+    "node-sass": "^5.0.0",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
   },
   "scripts": {
     "dev": "node index.js --dev",
@@ -17,7 +18,5 @@
     "watch": "watchify static/script.js -o static/bundle.js -v",
     "scss": "node-sass --watch static -o static"
   },
-  "devDependencies": {
-    "@prisma/cli": "^2.10.2"
-  }
+  "devDependencies": {}
 }
