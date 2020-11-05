@@ -1,0 +1,1 @@
+/target/arm-unknown-linux-gnueabihf/release/libprisma_value.rlib: /project/libs/prisma-value/src/arithmetic.rs /project/libs/prisma-value/src/error.rs /project/libs/prisma-value/src/lib.rs /project/libs/prisma-value/src/sql_ext.rs

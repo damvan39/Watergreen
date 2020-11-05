@@ -1,0 +1,1 @@
+/target/arm-unknown-linux-gnueabihf/release/libnative_types.rlib: /project/libs/native-types/src/lib.rs /project/libs/native-types/src/mssql.rs /project/libs/native-types/src/mysql.rs /project/libs/native-types/src/native_type.rs /project/libs/native-types/src/postgres.rs

@@ -1,0 +1,1 @@
+{"rustc":66165631676752942,"features":"[\"default\", \"mssql\", \"mysql\", \"pg\", \"sqlite3\"]","target":17439795341383921239,"profile":4339006351771724982,"path":1740382277437645170,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"arm-unknown-linux-gnueabihf/release/.fingerprint/barrel-6b331f27a19f6ba0/dep-lib-barrel"}}],"rustflags":[],"metadata":543650840835902191,"config":0}

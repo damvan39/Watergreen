@@ -1,0 +1,9 @@
+error[E0554]: `#![feature]` may not be used on the stable release channel
+ --> /target/arm-unknown-linux-gnueabihf/release/build/eyre-8c3e86b5595d9318/out/probe.rs:2:5
+  |
+2 |     #![feature(backtrace)]
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: aborting due to previous error
+
+For more information about this error, try `rustc --explain E0554`.

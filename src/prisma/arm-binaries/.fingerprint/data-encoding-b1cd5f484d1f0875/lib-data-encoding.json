@@ -1,0 +1,1 @@
+{"rustc":66165631676752942,"features":"[\"alloc\", \"default\", \"std\"]","target":13763433187372977122,"profile":4339006351771724982,"path":13054944554897878189,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"arm-unknown-linux-gnueabihf/release/.fingerprint/data-encoding-b1cd5f484d1f0875/dep-lib-data-encoding"}}],"rustflags":[],"metadata":9451614630512333348,"config":0}
