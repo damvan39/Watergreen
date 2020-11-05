@@ -2,7 +2,7 @@
 async function Init() {
     document.getElementById('myChart').height = $(window).height()/2;
     var ctx = document.getElementById('myChart').getContext('2d');
-    var getData = await fetch(window.location.href.substring(0, window.location.href.length -1 ) + ":4000/graphql", {
+    var getData = await fetch("graphql", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ async function Init() {
         data: {
             labels: getData.data.history.map(context => {
                 var d = new Date(parseInt(context.loggedAt))
-                return `${d.getDate()} / ${d.getMonth() + 1}`
+                return `${d.getDate()}/${d.getMonth() + 1} ${d.getHours()}:${d.getMinutes()}`
             }),
             datasets: [{
                 label: 'My First dataset',
@@ -52,7 +52,7 @@ async function Init() {
         data: getData.data.history.map(context => {
             return {
                 id: context.id, 
-                loggedAt: new Date(parseInt(context.loggedAt)).getDate() + " / " + new Date(parseInt(context.loggedAt)).getMonth(),
+                loggedAt: new Date(parseInt(context.loggedAt)).getDate() + "/" + new Date(parseInt(context.loggedAt)).getMonth(),
                 data: context.data 
             }
 
@@ -66,7 +66,7 @@ $( document ).ready(Init)
 
 async function live() {
 
-  document.getElementById('live').firstChild.data = await fetch(window.location.href.substring(0, window.location.href.length -1 ) + ":4000/graphql", {
+  document.getElementById('live').firstChild.data = await fetch("graphql", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

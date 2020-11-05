@@ -1,28 +1,29 @@
-type Query {
-    status: String!
-    live: [Live!]!
-    history: [Data]
-}
-type Mutation {
-    signup(email:String!, password:String!, name:String!): AuthPayload
-    login(email: String!, password: String!): AuthPayload
-}
-type AuthPayload {
-    token: String
-    user: User
-}
-type User {
-    id: ID!
-    name: String!
-    email: String!
-}
-type Live {
-    address: String!
-    data: Float!
-}
-scalar Date
-type Data {
-    id: ID!
-    loggedAt: String!
-    data: Float!
-}
+
+  __validationErrors: undefined,
+  extensions: undefined,
+  astNode: undefined,
+  extensionASTNodes: undefined,
+  __allowedLegacyNames: [],
+  _queryType: Query,
+  _mutationType: undefined,
+  _subscriptionType: undefined,
+  _directives: [ @skip, @include, @deprecated ],
+  _typeMap: [Object: null prototype] {
+    Query: Query,
+    Live: Live,
+    String: String,
+    Float: Float,
+    Data: Data,
+    ID: ID,
+    __Schema: __Schema,
+    __Type: __Type,
+    __TypeKind: __TypeKind,
+    Boolean: Boolean,
+    __Field: __Field,
+    __InputValue: __InputValue,
+    __EnumValue: __EnumValue,
+    __Directive: __Directive,
+    __DirectiveLocation: __DirectiveLocation
+  },
+  _possibleTypeMap: [Object: null prototype] {},
+  _implementations: [Object: null prototype] {}
