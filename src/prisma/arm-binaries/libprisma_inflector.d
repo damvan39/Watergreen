@@ -1,1 +1,0 @@
-/target/arm-unknown-linux-gnueabihf/release/libprisma_inflector.rlib: /project/libs/prisma-inflector/src/categories.rs /project/libs/prisma-inflector/src/exceptions.rs /project/libs/prisma-inflector/src/inflector.rs /project/libs/prisma-inflector/src/lib.rs /project/libs/prisma-inflector/src/rules.rs

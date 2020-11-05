@@ -1,1 +1,0 @@
-{"rustc":66165631676752942,"features":"[\"alloc\", \"default\", \"std\"]","target":10577718811532972458,"profile":4339006351771724982,"path":1091167105330416293,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"arm-unknown-linux-gnueabihf/release/.fingerprint/futures-sink-b7258f06a3f55e77/dep-lib-futures-sink"}}],"rustflags":[],"metadata":7407675505569626460,"config":0}

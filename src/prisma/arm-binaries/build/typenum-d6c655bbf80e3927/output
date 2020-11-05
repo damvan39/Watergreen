@@ -1,2 +1,0 @@
-cargo:rustc-env=TYPENUM_BUILD_CONSTS=/target/arm-unknown-linux-gnueabihf/release/build/typenum-d6c655bbf80e3927/out/consts.rs
-cargo:rustc-env=TYPENUM_BUILD_OP=/target/arm-unknown-linux-gnueabihf/release/build/typenum-d6c655bbf80e3927/out/op.rs
