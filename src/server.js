@@ -1,7 +1,6 @@
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
 const { Sequelize, DataTypes } = require('sequelize');
-const { APP_SECRET, getUserId } = require('./tokens.js')
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const express = require('express');
