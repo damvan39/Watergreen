@@ -9,8 +9,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css">
-<script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.22/r-2.2.6/rr-1.2.7/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.22/r-2.2.6/rr-1.2.7/datatables.min.js"></script>
 <link rel="stylesheet" href="style.css">
 <script src="script.js"></script>
 </head>
@@ -48,11 +49,11 @@
         </div>
 </div>
     <div  id="row" class="row card-deck pt-3">
-        <div class="col-md-8 card bg-light ">
-            <table id="table" data-page-size=5 data-check-on-init></table>
+        <div class="col-lg-8 card bg-light p-sm-1 p-md-3 ">
+            <table id="table" class="table" data-page-size=5 data-check-on-init></table>
         </div>
 
-        <div class="col-md-4 card bg-light">
+        <div class="col-lg-4 card bg-light">
             <div class="livenow icon d-flex justify-content-center"> 
                 <div></div>
                 <div></div>

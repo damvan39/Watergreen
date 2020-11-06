@@ -1,7 +1,13 @@
 
-async function Init() {
+function round(value, precision) {
+  var multiplier = Math.pow(10, precision || 0);
+  return Math.round(value * multiplier) / multiplier;
+}
+$( document ).ready(async function() {
+
+
     document.getElementById('myChart').height = $(window).height()/2;
-    document.getElementById('table').setAttribute('data-height',$(window).height()*0.37)
+    // document.getElementById('table').setAttribute('data-height',$(window).height()*0.37)
     var ctx = document.getElementById('myChart').getContext('2d');
     var getData = await fetch("graphql", {
         method: 'POST',
@@ -24,7 +30,7 @@ async function Init() {
                 return `${d.getDate()}/${d.getMonth() + 1} ${d.getHours()}:${d.getMinutes()}`
             }),
             datasets: [{
-                label: 'My First dataset',
+                label: 'Temperature',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 data: getData.data.history.map(context => context.data)
@@ -37,36 +43,33 @@ async function Init() {
             maintainAspectRatio:false,
         }
     });
-    $('#table').bootstrapTable({
-      pagination:true,
-        search: true,
-        columns: [{
-          field: 'id',
-          title: 'Measurment ID'
-        }, {
-          field: 'loggedAt',
-          title: 'Time Logged'
-        }, {
-          field: 'data',
-          title: 'Sensor data'
-        }],
-        data: getData.data.history.map(context => {
-          var d = new Date(parseInt(context.loggedAt))
-            return {
-                id: context.id.substring(0,7), 
-                loggedAt: `${d.getDate()}/${d.getMonth() + 1} ${d.getHours()}:${d.getMinutes()}`,
-                data: context.data 
-            }
+    $('#table').DataTable( {
+      responsive:true,
+      'pageLength':5,
+      data: getData.data.history.map(context => {
+              var d = new Date(parseInt(context.loggedAt))
+                return {
+                    id: context.id.substring(0,7), 
+                    loggedAt: `${d.getDate()}/${d.getMonth() + 1} ${d.getHours()}:${d.getMinutes()}`,
+                    data: context.data 
+                }
+    
+            }),
+      columns: [
+        { data: 'data', title:'Temperature' },
+        { data: 'loggedAt', title:'loggedAt' },
+          { data: 'id', title:"id"},
 
-        })
-      })
+
+      ]
+  } );
 
       live()
-      setInterval(live, 3000);
+      setInterval(live, 1500);
 
 
-}
-$( document ).ready(Init) 
+})
+
 
 async function live() {
 
@@ -78,7 +81,7 @@ async function live() {
     },
     body: JSON.stringify({query: "{live {data}}"})
 }).then(r => r.json()).then(context => {
-  return Math.round(context.data.live[0].data)
+  return round(context.data.live[0].data, 1)
 })
 
 
