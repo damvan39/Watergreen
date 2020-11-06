@@ -7,16 +7,16 @@ const express = require('express');
 const { request } = require('http');
 const app = express()
 const port = 80
-const interval = 1000
+const interval = 3.6e+6
 // check development mode
 switch (process.argv.slice(2)[0]){
     case 'dev':
         console.log('development mode enabled')
-        water_temp_command = `py ds18b20.py test`
+        water_temp_command = `python3 ds18b20.py test`
         graphiql = '/'
         break
     default: 
-    water_temp_command = `py ds18b20.py`
+    water_temp_command = `python3 ds18b20.py`
     graphiql = false
 
 }
@@ -83,7 +83,7 @@ const history = sequelize.define('history', {
   const resolvers = {
 
         live: async() => JSON.parse(await execute(water_temp_command)),
-        history: async (args, context) => await context.findAll(),
+        history: async (args, context) => await context.findAll({limit:20}),
 }
 
 sequelize.sync()
@@ -101,7 +101,7 @@ app.use(express.static('static'))
 app.listen(port, () => console.log(`html server listening on port ${port}`))
 
 //  console.log({live_data: lsWithGrep(`python3 ../tools/"`).catch(err => console.log(err))})
-// setInterval(logData, interval);
+setInterval(logData, interval);
 
 async function logData () {
   history.create({

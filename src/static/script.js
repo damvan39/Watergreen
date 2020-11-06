@@ -1,6 +1,7 @@
 
 async function Init() {
     document.getElementById('myChart').height = $(window).height()/2;
+    document.getElementById('table').setAttribute('data-height',$(window).height()*0.37)
     var ctx = document.getElementById('myChart').getContext('2d');
     var getData = await fetch("graphql", {
         method: 'POST',
@@ -50,16 +51,19 @@ async function Init() {
           title: 'Sensor data'
         }],
         data: getData.data.history.map(context => {
+          var d = new Date(parseInt(context.loggedAt))
             return {
-                id: context.id, 
-                loggedAt: new Date(parseInt(context.loggedAt)).getDate() + "/" + new Date(parseInt(context.loggedAt)).getMonth(),
+                id: context.id.substring(0,7), 
+                loggedAt: `${d.getDate()}/${d.getMonth() + 1} ${d.getHours()}:${d.getMinutes()}`,
                 data: context.data 
             }
 
         })
       })
+
       live()
       setInterval(live, 3000);
+
 
 }
 $( document ).ready(Init) 
