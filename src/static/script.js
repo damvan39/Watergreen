@@ -37,7 +37,7 @@ async function Init() {
         }
     });
     $('#table').bootstrapTable({
-        pagination: true,
+      pagination:true,
         search: true,
         columns: [{
           field: 'id',

@@ -7,6 +7,7 @@ const express = require('express');
 const { request } = require('http');
 const app = express()
 const port = 80
+const interval = 1000
 // check development mode
 switch (process.argv.slice(2)[0]){
     case 'dev':
@@ -20,14 +21,10 @@ switch (process.argv.slice(2)[0]){
 
 }
 
-// async function logTemp() {
-//   await prisma.data.create({
-//     data: {
-//       data: JSON.parse(await execute(water_temp_command))[0].data
-//     }
-//   }).then(d => console.log(d))
-// }
-
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'database/data.db'
+});
 
 
 async function execute(cmd) {
@@ -59,18 +56,43 @@ type Data {
 }
 `);
 
+const history = sequelize.define('history', {
+  // Model attributes are defined here
+  id:{
+    type: DataTypes.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull:false,
+    primaryKey:true,
+
+  },
+  loggedAt:{
+    type: DataTypes.INTEGER,
+    allowNull:false,
+  },
+  data:{
+    type: DataTypes.FLOAT,
+    allowNull:false,
+  }
+
+});
+
+
+
+
+
   const resolvers = {
 
         live: async() => JSON.parse(await execute(water_temp_command)),
-        history: async (args, context) => {
-            // return await context.data.findMany()
-    },
+        history: async (args, context) => await context.findAll(),
 }
+
+sequelize.sync()
 
 app.use('/graphql', graphqlHTTP( async () => ({
   schema: schema,
   rootValue: resolvers,
   graphiql: true,
+  context: history
 })),
 
 )
@@ -79,23 +101,17 @@ app.use(express.static('static'))
 app.listen(port, () => console.log(`html server listening on port ${port}`))
 
 //  console.log({live_data: lsWithGrep(`python3 ../tools/"`).catch(err => console.log(err))})
-console.log(Date.now())
+// setInterval(logData, interval);
 
-const sequelize = new Sequelize('sqlite::memory:');
+async function logData () {
+  history.create({
+  data: JSON.parse(await execute(water_temp_command))[0].data,
+  loggedAt: Date.now()
+})
+}
 
-const User = sequelize.define('User', {
-  // Model attributes are defined here
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  lastName: {
-    type: DataTypes.STRING
-    // allowNull defaults to true
-  }
-}, {
-  // Other model options go here
-});
+logData()
+
+
 
 // `sequelize.define` also returns the model
-console.log(User === sequelize.models.User); // true
