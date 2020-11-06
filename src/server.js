@@ -16,7 +16,7 @@ switch (process.argv.slice(2)[0]){
         graphiql = '/'
         break
     default: 
-    water_temp_command = `python3 ds18b20.py`
+    water_temp_command = `python3 ds18b20.py printall`
     graphiql = false
 
 }
