@@ -6,7 +6,7 @@ function round(value, precision) {
 $( document ).ready(async function() {
 
 
-    document.getElementById('myChart').height = $(window).height()/2;
+    document.getElementById('myChart').height = $(window).height()*0.40;
     // document.getElementById('table').setAttribute('data-height',$(window).height()*0.37)
     var ctx = document.getElementById('myChart').getContext('2d');
     var getData = await fetch("graphql", {

@@ -1,13 +1,14 @@
 .holder {
   max-width: 455px;
   margin: 0 auto; }
-  .holder .follow {
-    display: block;
-    text-decoration: none;
-    font-family: sans-serif;
-    font-size: 12px;
-    color: #666;
-    text-align: center; }
+
+.holder .follow {
+  display: block;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-size: 12px;
+  color: #666;
+  text-align: center; }
 
 .livenow {
   width: 30px;
@@ -17,32 +18,37 @@
 
 .livenow > div {
   vertical-align: middle;
-  width: 22px;
-  height: 22px;
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
   position: absolute;
   margin: 0 auto;
-  border: 3px solid #343a40;
+  border: 5px solid #343a40;
   -webkit-animation: live 1.4s infinite ease-in-out;
   animation: live 1.4s infinite ease-in-out;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both; }
-  .livenow > div:nth-child(1) {
-    background-color: #f8f9fa;
-    background-color: #343a40;
-    -webkit-animation-delay: -0.1s;
-    animation-delay: -0.1s; }
-  .livenow > div:nth-child(2) {
-    -webkit-animation-delay: 0.16s;
-    animation-delay: 0.16s; }
-  .livenow > div:nth-child(3) {
-    -webkit-animation-delay: 0.42s;
-    animation-delay: 0.42s;
-    border: 3px solid #f8f9fa; }
-  .livenow > div:nth-child(4) {
-    border: 3px solid #343a40;
-    -webkit-animation-delay: -0.42s;
-    animation-delay: -0.42s; }
+
+.livenow > div:nth-child(1) {
+  background-color: #00000000;
+  -webkit-animation-delay: -0.1s;
+  animation-delay: -0.1s;
+  width: 40px;
+  height: 40px; }
+
+.livenow > div:nth-child(2) {
+  -webkit-animation-delay: 0.16s;
+  animation-delay: 0.16s; }
+
+.livenow > div:nth-child(3) {
+  -webkit-animation-delay: 0.42s;
+  animation-delay: 0.42s;
+  border: 3px solid #808080a8; }
+
+.livenow > div:nth-child(4) {
+  border: 3px solid #fa6161;
+  -webkit-animation-delay: -0.42s;
+  animation-delay: -0.42s; }
 
 @-webkit-keyframes live {
   0%, 80%, 100% {
